@@ -1,0 +1,58 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 24rem;
+  position: relative;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.4rem;
+  padding: 2rem;
+}
+
+.wrap-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 26px;
+}
+
+.wrap-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrap-link {
+  margin-top: 10px;
+}
+
+.router-link {
+  font-size: 14px;
+  color: blue;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 20px 30px;
+}
+
+.mat-progress-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

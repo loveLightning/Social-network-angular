@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { ErrorService } from 'src/app/services/error.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss']
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
+  aSub: Subscription;
 
   constructor(
     private authService: AuthService,
-    public errorService: ErrorService
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   get inputs() {
@@ -34,20 +38,36 @@ export class RegisterPageComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
+  }
+
   onSubmit(): void {
     const registerInput = this.registerForm.value;
 
-    console.log(this.registerForm.controls.fullname.errors);
-    if (this.registerForm.valid) {
-      this.authService.register(registerInput).subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-        error: (err) => {
-          this.errorService.handle(err);
-          console.log(err);
-        }
-      });
+    if (this.registerForm.invalid) {
+      return;
     }
+
+    this.registerForm.disable();
+
+    this.aSub = this.authService.register(registerInput).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.router.navigate(['/login'], {
+          queryParams: {
+            registered: true
+          }
+        });
+      },
+      error: (err) => {
+        console.log(err);
+
+        this.snackbarService.open(err);
+        this.registerForm.enable();
+      }
+    });
   }
 }

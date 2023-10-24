@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Apollo, MutationResult, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import {
   AccessTokenTypes,
   LoginInputTypes,
   RegisterInputTypes
 } from '../models/auth';
+import { StorageService } from './storage.service';
 
 const LOGIN = gql`
   mutation Login($loginInput: LoginInput!) {
@@ -25,7 +26,7 @@ const REGISTER = gql`
 
 const REFRESH_TOKEN = gql`
   mutation RefreshToken {
-    refreshToken {
+    refresh {
       accessToken
     }
   }
@@ -41,12 +42,15 @@ const LOGOUT = gql`
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private apollo: Apollo) {}
+  constructor(
+    private apollo: Apollo,
+    private storageService: StorageService
+  ) {}
 
   login(
     loginInput: LoginInputTypes
-  ): Observable<MutationResult<AccessTokenTypes>> {
-    return this.apollo.mutate<AccessTokenTypes>({
+  ): Observable<MutationResult<{ login: AccessTokenTypes }>> {
+    return this.apollo.mutate<{ login: AccessTokenTypes }>({
       mutation: LOGIN,
       variables: {
         loginInput
@@ -54,13 +58,26 @@ export class AuthService {
     });
   }
 
-  register(registerInput: RegisterInputTypes) {
-    return this.apollo.mutate<AccessTokenTypes>({
-      mutation: REGISTER,
-      variables: {
-        registerInput
-      }
-    });
+  register(
+    registerInput: RegisterInputTypes
+  ): Observable<MutationResult<AccessTokenTypes>> {
+    console.log(registerInput);
+    return this.apollo
+      .mutate<AccessTokenTypes>({
+        mutation: REGISTER,
+        variables: {
+          registerInput
+        }
+      })
+      .pipe(
+        tap(({ data }) => {
+          console.log('dsa');
+
+          if (data?.accessToken) {
+            this.storageService.setAccessToken(data.accessToken);
+          }
+        })
+      );
   }
 
   refreshToken() {

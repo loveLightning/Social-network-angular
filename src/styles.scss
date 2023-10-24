@@ -1,3 +1,70 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+$colors: (
+  primary: #1D4ED8,
+  secondary: #9CA3AF,
+  success: #56BE85,
+  warning: #FFB876,
+  danger: #EF4444,
+);
+
+$sizes: (
+  sm: (
+    font-size: 14px,
+    padding: 0.5rem 1rem,
+  ),
+  md: (
+    font-size: 16px,
+    padding: 1rem 1.5rem,
+  ),
+  lg: (
+    font-size: 18px,
+    padding: 1.5rem 2rem,
+  ),
+);
+
+body {
+  font-family: Roboto;
+  font-weight: 400;
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+
+ul li {
+  padding: 0;
+  list-style: none;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 1252px;
+  padding: 0px 30px;
+  margin: 0 auto;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

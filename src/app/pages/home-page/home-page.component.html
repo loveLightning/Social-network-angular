@@ -1,1 +1,9 @@
-<p>home works!</p>
+<div>
+  <div class="buttons-container">
+    <button class="show-btn" (click)="showDynamicComponent()">Show component</button>
+    <button class="remove-btn" (click)="removeDynamicComponent()">
+      Remove component
+    </button>
+  </div>
+  <ng-template #dynamic></ng-template>
+</div>

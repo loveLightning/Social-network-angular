@@ -1,41 +1,53 @@
-<div class="flex flex-col justify-center items-center min-h-screen">
-  <div class="w-full max-w-sm">
+<div class="wrapper">
+  <div class="container">
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="mb-4">
-        <label for="fullname" class="block text-gray-700 text-sm font-bold mb-2">Fullname</label>
-        <input type="text" name="fullname" formControlName="fullname" name="fullname" required
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        <app-error-desc
-          *ngIf="registerForm.controls.fullname.errors?.required && registerForm.controls.fullname.touched"
-          messageError="This field is required"></app-error-desc>
-      </div>
-      <div class="mb-4">
-        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-        <input type="email" formControlName="email" name="email" required
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        <app-error-desc *ngIf="registerForm.controls.email.errors?.required && registerForm.controls.email.touched"
-          messageError="This field is required"></app-error-desc>
-        <app-error-desc *ngIf="registerForm.controls.email.errors?.email && registerForm.controls.email.touched"
-          messageError="Please enter a valid email address"></app-error-desc>
+    <div class="wrap-title">
+      <h3 class="title">Register</h3>
+    </div>
+
+    <form [formGroup]="registerForm" #f="ngForm" (ngSubmit)="onSubmit()" class="wrap-form">
+      <div class="wrap-input">
+        <mat-form-field class="field" appearance="outline" hideRequiredMarker="true">
+          <mat-label>Fullname</mat-label>
+          <input matInput type="text" formControlName="fullname" required>
+
+          <mat-error *ngIf="inputs.fullname.invalid && inputs.fullname.touched">
+            <span *ngIf="inputs.fullname.errors?.required">This field is required</span>
+          </mat-error>
+        </mat-form-field>
       </div>
 
-      <div class="mb-4">
-        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-        <input type="password" name="password" formControlName="password" name="password" required minlength="8"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        <app-error-desc
-          *ngIf="registerForm.controls.password.errors?.required && registerForm.controls.password.touched"
-          messageError="This field is required"></app-error-desc>
-        <app-error-desc
-          *ngIf="registerForm.controls.password.errors?.minlength && registerForm.controls.password.touched"
-          messageError="The password must be at least 8 characters long"></app-error-desc>
+      <div class="wrap-input">
+        <mat-form-field class="field" appearance="outline" hideRequiredMarker="true">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+
+          <mat-error *ngIf="inputs.email.invalid && inputs.email.touched">
+            <span *ngIf="inputs.email.errors?.required">This field is required</span>
+            <span *ngIf="inputs.email.errors?.email">Please enter a valid email address</span>
+          </mat-error>
+        </mat-form-field>
       </div>
 
-      <div class="flex items-center justify-between">
-        <button type="submit"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign
-          Up</button>
+      <div class="wrap-input">
+        <mat-form-field class="field" appearance="outline" hideRequiredMarker="true">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required>
+
+          <mat-error *ngIf="inputs.password.invalid && inputs.password.touched">
+            <span *ngIf="inputs.password.errors?.required">This field is required</span>
+            <span *ngIf="inputs.password.errors?.minlength">The password must be at least 8 characters long</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="wrap-btn">
+        <button mat-raised-button class="btn" color="primary" [disabled]="registerForm.invalid || registerForm.disabled"
+          type="submit">Sign
+          up</button>
+      </div>
+      <div class="wrap-link">
+        <a class="router-link" routerLink="/login">Have you already registered?</a>
       </div>
     </form>
   </div>

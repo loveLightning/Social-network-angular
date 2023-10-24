@@ -9,31 +9,27 @@ const USER_TOKEN = 'accessToken';
 export class StorageService {
   constructor(private cookieService: CookieService) {}
 
-  clean() {
+  cleanAccessToken() {
     this.cookieService.delete(USER_TOKEN);
   }
 
-  public saveUser(accessToken: string) {
+  setAccessToken(accessToken: string) {
     this.cookieService.set(USER_TOKEN, JSON.stringify(accessToken));
   }
 
-  public getUser() {
-    const user = this.cookieService.get(USER_TOKEN);
+  getAccessToken() {
+    const accessToken = this.cookieService.get(USER_TOKEN);
 
-    if (user) {
-      return JSON.parse(user);
+    if (accessToken) {
+      return JSON.parse(accessToken);
     }
 
     return null;
   }
 
-  public isLoggedIn(): boolean {
-    const user = this.cookieService.get(USER_TOKEN);
+  isSignedInOnTheClient() {
+    const accessToken = this.cookieService.get(USER_TOKEN);
 
-    if (user) {
-      return true;
-    }
-
-    return false;
+    return !!accessToken;
   }
 }
